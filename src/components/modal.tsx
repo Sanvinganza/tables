@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import { TRow, TStatus } from "./table";
+import { TRow } from "./table";
 import {
   FormControl,
   FormHelperText,
@@ -12,6 +12,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import { TStatus } from "../types";
 
 type IModalProps = {
   data: TRow;
@@ -21,7 +22,7 @@ type IModalProps = {
 
 export default function Modal({ data, open, setOpen }: IModalProps) {
   const { company, note, salary, status, vacancy } = data;
-
+  console.log({ data });
   const handleClose = () => {
     setOpen(false);
   };

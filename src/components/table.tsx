@@ -8,15 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Modal from "./modal";
+import { TStatus, TVacancy } from "../types";
 
-export type TVacancy = {
-  company: string;
-  vacancy: string;
-  salary: number;
-  status: TStatus;
-  note: string;
-};
-export type TStatus = "Accept" | "Decline" | "Expectation";
 export type TRow = TVacancy & { id?: string };
 
 type TCreateData = (
@@ -29,7 +22,7 @@ type TCreateData = (
 
 const createData: TCreateData = (company, vacancy, salary, status, note) => {
   const id = uuidv4();
-  return { id, company, vacancy, salary, status, note };
+  return { id, company, vacancy, salary, status, note } as TRow;
 };
 
 const rows: TRow[] = [
