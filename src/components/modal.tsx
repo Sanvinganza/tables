@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import { TRow } from "./table";
+
 import {
   FormControl,
   FormHelperText,
@@ -12,21 +12,23 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { TStatus } from "../types";
+
+import { TStatus, TVacancy } from "../types";
 
 type IModalProps = {
-  data: TRow;
+  data: TVacancy;
   open: boolean;
   setOpen: (open: boolean) => void;
 };
 
 export default function Modal({ data, open, setOpen }: IModalProps) {
   const { company, note, salary, status, vacancy } = data;
-  console.log({ data });
+
   const handleClose = () => {
     setOpen(false);
   };
-  const vacancyData = React.useRef(data);
+
+  const vacancyData = React.useRef<TVacancy>(data);
 
   const handleSelectStatus = (event: SelectChangeEvent) => {
     vacancyData.current.status = event.target.value as TStatus;
@@ -35,7 +37,8 @@ export default function Modal({ data, open, setOpen }: IModalProps) {
   const onChangeTextField = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    vacancyData.current[event.target.name] = event.target.value;
+    const key = event.target.name;
+    vacancyData.current[key] = event.target.value;
   };
 
   return (

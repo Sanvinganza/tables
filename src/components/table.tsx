@@ -9,7 +9,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Modal from "./modal";
 import { TStatus, TVacancy } from "../types";
-
+import { useQuery } from "react-query";
+import { getVacancies } from "../api";
+import Alert from "@mui/material/Alert";
 export type TRow = TVacancy & { id?: string };
 
 type TCreateData = (
@@ -113,6 +115,11 @@ const rows: TRow[] = [
 ];
 
 export default function Table() {
+  const { isLoading, error, data } = useQuery<TVacancy[], { message: string }>(
+    "vacancies",
+    getVacancies
+  );
+
   const [openModal, setOpenModal] = React.useState(false);
   const [page, setPage] = React.useState<number>(0);
 
@@ -134,23 +141,29 @@ export default function Table() {
           <TableMUI aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="left">Company</TableCell>
-                <TableCell align="right">Vacancy</TableCell>
-                <TableCell align="right">Salary</TableCell>
-                <TableCell align="right">Status</TableCell>
-                <TableCell align="right">Note</TableCell>
+                <TableCell align="left">Компания</TableCell>
+                <TableCell align="center">Вакансия</TableCell>
+                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                  Зарплатная вилка
+                </TableCell>
+                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                  Статус отклика
+                </TableCell>
+                <TableCell align="right">Заметка</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id} onClick={() => onClickRow(row)}>
-                  <TableCell align="left">{row.company}</TableCell>
-                  <TableCell align="right">{row.vacancy}</TableCell>
-                  <TableCell align="right">{row.salary}</TableCell>
-                  <TableCell align="right">{row.status}</TableCell>
-                  <TableCell align="right">{row.note}</TableCell>
-                </TableRow>
-              ))}
+              {isLoading
+                ? "Loading..."
+                : data?.map((row) => (
+                    <TableRow key={row.id} onClick={() => onClickRow(row)}>
+                      <TableCell align="left">{row.company}</TableCell>
+                      <TableCell align="center">{row.vacancy}</TableCell>
+                      <TableCell align="center">{row.salary}</TableCell>
+                      <TableCell align="center">{row.status}</TableCell>
+                      <TableCell align="left">{row.note}</TableCell>
+                    </TableRow>
+                  ))}
             </TableBody>
           </TableMUI>
         </TableContainer>
@@ -158,7 +171,7 @@ export default function Table() {
           rowsPerPage={10}
           rowsPerPageOptions={[10]}
           component="div"
-          count={rows.length}
+          count={data?.length || 0}
           page={page}
           onPageChange={onPageChange}
         />
@@ -168,6 +181,7 @@ export default function Table() {
         open={openModal}
         setOpen={setOpenModal}
       />
+      {error ? <Alert severity="error">ERROR: {error.message}</Alert> : null}
     </>
   );
 }

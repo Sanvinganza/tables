@@ -1,12 +1,19 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { Create, Delete, Get, Update } from "./controllers/vacancy.route";
 import bodyParser from "body-parser";
+import cors from "cors";
+
+import { Create, Delete, Get, Update } from "./controllers/vacancy.route";
 
 dotenv.config();
 
 const app: Express = express();
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+  })
+);
 const port = process.env.PORT || 5000;
 
 const { MONGO_URI } = process.env;

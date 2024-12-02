@@ -1,4 +1,5 @@
 export type TVacancy = {
+  id?: string;
   company: string;
   vacancy: string;
   salary: number;

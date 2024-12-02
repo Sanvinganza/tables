@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Table from './components/table';
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    const fetchMessage = async () => {
-      const response = await fetch('/api/test');
-      const data = await response.json();
-      setMessage(data.message);
-    };
-
-    fetchMessage();
-  }, []);
-
+  const queryClient = new QueryClient();
   return (
-    <div>
-      <h1>{message}</h1>
+    <QueryClientProvider client={queryClient}>
       <Table />
-    </div>
+    </QueryClientProvider>
   );
 }
 
