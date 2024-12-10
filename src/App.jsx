@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import Table from './components/table';
+import Table from './components/Table/Table';
 
 function App() {
   const queryClient = new QueryClient();

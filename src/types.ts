@@ -1,5 +1,5 @@
 export type TVacancy = {
-  id?: string;
+  _id: string;
   company: string;
   vacancy: string;
   salary: number;
@@ -7,3 +7,4 @@ export type TVacancy = {
   note: string;
 };
 export type TStatus = "Accept" | "Decline" | "Expectation";
+export type TEmptyVacancy = Omit<TVacancy, "_id">;

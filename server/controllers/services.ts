@@ -28,9 +28,9 @@ export async function getVacancies() {
   }
 }
 
-export async function updateVacancy(id: string, data: any) {
+export async function updateVacancy(data: TVacancy) {
   try {
-    const vacancy = await Vacancy.findByIdAndUpdate({ _id: id }, data, {
+    const vacancy = await Vacancy.findByIdAndUpdate({ _id: data._id }, data, {
       new: true,
     });
 
@@ -52,9 +52,9 @@ export async function updateVacancy(id: string, data: any) {
   }
 }
 
-export async function deleteVacancy(id: string) {
+export async function deleteVacancy(_id: string) {
   try {
-    const vacancy = await Vacancy.findByIdAndDelete({ _id: id });
+    const vacancy = await Vacancy.findByIdAndDelete({ _id });
     if (!vacancy) {
       return {
         status: "Failed",
