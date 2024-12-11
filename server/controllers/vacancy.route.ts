@@ -28,15 +28,27 @@ export async function Create(req: Request, res: Response) {
 
 export async function Get(req: Request, res: Response) {
   const service = await getVacancies();
-  res.status(201).send(service);
+  if (!service) {
+    res.status(404).send(service);
+  } else {
+    res.status(200).send(service);
+  }
 }
 
 export async function Update(req: Request, res: Response) {
   const service = await updateVacancy(req.body);
-  res.status(201).send(service);
+  if (service.status === "Failed") {
+    res.status(404).send(service);
+  } else {
+    res.status(201).send(service);
+  }
 }
 
 export async function Delete(req: Request, res: Response) {
   const service = await deleteVacancy(req.body._id);
-  res.status(201).send(service);
+  if (service.status === "Failed") {
+    res.status(404).send(service);
+  } else {
+    res.status(204).send(service);
+  }
 }

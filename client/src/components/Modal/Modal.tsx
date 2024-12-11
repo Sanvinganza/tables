@@ -1,34 +1,42 @@
 import { TEmptyVacancy, TStatus, TVacancy } from "../../types";
 import { ModalUI, TOnChangeTextField } from "../../UI/ModalUI";
-import { AlertUI } from "../../UI/AlertUI";
 import { useState } from "react";
 import { useCreateVacancy, useDeleteVacancy, useUpdateVacancy } from "./hooks";
+import { useErrorProvider } from "../ErrorProvider/hooks";
 
 type IModalProps = {
   data: TVacancy | TEmptyVacancy;
   handleClose: () => void;
+  setAlertText: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function Modal({ data, handleClose }: IModalProps) {
+export default function Modal({
+  data,
+  handleClose,
+  setAlertText,
+}: IModalProps) {
   const [company, setCompany] = useState<string>(data.company);
   const [note, setNote] = useState<string>(data.note);
   const [salary, setSalary] = useState<number>(data.salary);
   const [status, setStatus] = useState<TStatus>(data.status);
   const [vacancy, setVacancy] = useState<string>(data.vacancy);
 
-  const [alertText, setAlertText] = useState<string>("");
+  const { updateVacancy, isVacancyUpdating } = useUpdateVacancy();
+  const { createVacancy, isVacancyCreating } = useCreateVacancy();
+  const { deleteVacancy, isVacancyDeleting } = useDeleteVacancy(data["_id"]);
 
-  const { updateVacancy, updateError, isVacancyUpdating } = useUpdateVacancy();
-  const { createVacancy, createError, isVacancyCreating } = useCreateVacancy();
-  const { deleteVacancy, deleteError, isVacancyDeleting } = useDeleteVacancy(
-    data["_id"]
-  );
-
+  const { setError } = useErrorProvider();
   const onClickDeleteVacancy = () => {
     if (data["_id"])
       deleteVacancy(data["_id"], {
         onSuccess() {
+          setAlertText("Vacancy deleted!");
           handleClose();
+        },
+        onError(error) {
+          if (error) {
+            setError(error as string);
+          }
         },
       });
   };
@@ -72,6 +80,11 @@ export default function Modal({ data, handleClose }: IModalProps) {
             setAlertText("Vacancy updated!");
             handleClose();
           },
+          onError(error) {
+            if (error) {
+              setError(error as string);
+            }
+          },
         }
       );
     } else {
@@ -87,6 +100,11 @@ export default function Modal({ data, handleClose }: IModalProps) {
           onSuccess() {
             setAlertText("Vacancy created!");
             handleClose();
+          },
+          onError(error) {
+            if (error) {
+              setError(error as string);
+            }
           },
         }
       );
@@ -107,8 +125,8 @@ export default function Modal({ data, handleClose }: IModalProps) {
         onClickDeleteVacancy={onClickDeleteVacancy}
         onSubmit={onSubmit}
         open={!!data}
+        isLoading={isVacancyUpdating || isVacancyCreating || isVacancyDeleting}
       />
-      {alertText ? <AlertUI status={"success"} text={alertText} /> : null}
     </>
   );
 }

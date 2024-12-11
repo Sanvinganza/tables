@@ -1,12 +1,20 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Table from './components/Table/Table';
+import ErrorAlert from './components/ErrorAlert/ErrorAlert';
+import { ErrorProvider } from './components/ErrorProvider/ErrorProvider';
 
 function App() {
   const queryClient = new QueryClient();
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Table />
-    </QueryClientProvider>
+    <ErrorProvider>
+      <QueryClientProvider client={queryClient}>
+        <>
+          <Table />
+          <ErrorAlert />
+        </>
+      </QueryClientProvider>
+    </ErrorProvider>
   );
 }
 

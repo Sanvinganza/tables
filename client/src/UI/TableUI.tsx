@@ -13,6 +13,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { TVacancy } from "../types";
 import { useEffect, useState } from "react";
+import { useErrorProvider } from "../components/ErrorProvider/hooks";
 
 type TTableUIProps = {
   onClickCreateVacancy: () => void;
@@ -76,19 +77,21 @@ export const TableUI = ({
               <TableCell align="right">Заметка</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {isLoadingVacancy
-              ? "Loading..."
-              : visibleRows?.map((row) => (
-                  <TableRow key={row._id} onClick={() => onClickVacancy(row)}>
-                    <TableCell align="left">{row.company}</TableCell>
-                    <TableCell align="center">{row.vacancy}</TableCell>
-                    <TableCell align="center">{row.salary}</TableCell>
-                    <TableCell align="center">{row.status}</TableCell>
-                    <TableCell align="left">{row.note}</TableCell>
-                  </TableRow>
-                ))}
-          </TableBody>
+          {isLoadingVacancy ? (
+            <caption>"Loading..."</caption>
+          ) : (
+            <TableBody>
+              {visibleRows?.map((row) => (
+                <TableRow key={row._id} onClick={() => onClickVacancy(row)}>
+                  <TableCell align="left">{row.company}</TableCell>
+                  <TableCell align="center">{row.vacancy}</TableCell>
+                  <TableCell align="center">{row.salary}</TableCell>
+                  <TableCell align="center">{row.status}</TableCell>
+                  <TableCell align="left">{row.note}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
       <TablePagination

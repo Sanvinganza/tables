@@ -9,6 +9,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TStatus } from "../types";
@@ -22,6 +23,7 @@ export type TOnChangeTextField = (
 
 type ModalUIProps = {
   open: boolean;
+  isLoading: boolean;
   handleClose: MouseEventHandler<HTMLButtonElement>;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onChangeTextField: TOnChangeTextField;
@@ -44,6 +46,7 @@ export const ModalUI = ({
   salary,
   note,
   status,
+  isLoading,
   _id,
   onClickDeleteVacancy,
 }: ModalUIProps) => {
@@ -56,74 +59,80 @@ export const ModalUI = ({
         onSubmit: onSubmit,
       }}>
       <DialogContent>
-        <TextField
-          autoFocus
-          required
-          onChange={onChangeTextField}
-          margin="dense"
-          id="company"
-          name="company"
-          defaultValue={company}
-          type="text"
-          fullWidth
-          label="Company"
-          variant="outlined"
-          placeholder="Company"
-        />
-        <TextField
-          autoFocus
-          required
-          variant="outlined"
-          label="Vacancy"
-          margin="dense"
-          onChange={onChangeTextField}
-          id="vacancy"
-          name="vacancy"
-          defaultValue={vacancy}
-          type="text"
-          fullWidth
-        />
-        <TextField
-          autoFocus
-          required
-          margin="dense"
-          id="salary"
-          variant="outlined"
-          label="Salary"
-          onChange={onChangeTextField}
-          name="salary"
-          defaultValue={salary}
-          type="text"
-          fullWidth
-        />
-        <FormControl sx={{ minWidth: 120 }}>
-          <FormHelperText>Status</FormHelperText>
-          <Select
-            labelId="demo-simple-select-variant"
-            id="demo-simple-select"
-            variant="outlined"
-            label="Status"
-            defaultValue={status}
-            onChange={onChangeTextField}>
-            <MenuItem value={"Accept"}>Accept</MenuItem>
-            <MenuItem value={"Decline"}>Decline</MenuItem>
-            <MenuItem value={"Expectation"}>Expectation</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          autoFocus
-          required
-          variant="outlined"
-          margin="dense"
-          id="note"
-          onChange={onChangeTextField}
-          label="Note"
-          name="note"
-          defaultValue={note}
-          type="text"
-          fullWidth
-          multiline
-        />
+        {isLoading ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          <>
+            <TextField
+              autoFocus
+              required
+              onChange={onChangeTextField}
+              margin="dense"
+              id="company"
+              name="company"
+              defaultValue={company}
+              type="text"
+              fullWidth
+              label="Company"
+              variant="outlined"
+              placeholder="Company"
+            />
+            <TextField
+              autoFocus
+              required
+              variant="outlined"
+              label="Vacancy"
+              margin="dense"
+              onChange={onChangeTextField}
+              id="vacancy"
+              name="vacancy"
+              defaultValue={vacancy}
+              type="text"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="salary"
+              variant="outlined"
+              label="Salary"
+              onChange={onChangeTextField}
+              name="salary"
+              defaultValue={salary}
+              type="text"
+              fullWidth
+            />
+            <FormControl sx={{ minWidth: 120 }}>
+              <FormHelperText>Status</FormHelperText>
+              <Select
+                labelId="demo-simple-select-variant"
+                id="demo-simple-select"
+                variant="outlined"
+                label="Status"
+                defaultValue={status}
+                onChange={onChangeTextField}>
+                <MenuItem value={"Accept"}>Accept</MenuItem>
+                <MenuItem value={"Decline"}>Decline</MenuItem>
+                <MenuItem value={"Expectation"}>Expectation</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              autoFocus
+              required
+              variant="outlined"
+              margin="dense"
+              id="note"
+              onChange={onChangeTextField}
+              label="Note"
+              name="note"
+              defaultValue={note}
+              type="text"
+              fullWidth
+              multiline
+            />
+          </>
+        )}
       </DialogContent>
       <DialogActions>
         {_id ? (

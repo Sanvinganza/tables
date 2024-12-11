@@ -6,5 +6,9 @@ type AlertUIProps = {
 };
 
 export const AlertUI = ({ text, status = "success" }: AlertUIProps) => {
-  return <Alert severity={status}>{text}</Alert>;
+  return (
+    <Alert sx={{ position: "absolute", bottom: "10px" }} severity={status}>
+      {text}
+    </Alert>
+  );
 };
