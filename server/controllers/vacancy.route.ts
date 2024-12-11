@@ -6,7 +6,7 @@ import {
 } from "./services";
 import { Request, Response } from "express";
 import { VacancySchemaValidate } from "../model/schema";
-import { TVacancy } from "../../src/types";
+import { TVacancy } from "../../client/src/types";
 
 export async function Create(req: Request, res: Response) {
   const data: Omit<TVacancy, "_id"> = {

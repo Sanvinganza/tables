@@ -1,5 +1,5 @@
-import { TVacancy } from "../../src/types";
 import { Vacancy } from "../model/schema";
+import { TVacancy } from "../../client/src/types";
 
 export async function createVacancy(data: TVacancy) {
   try {

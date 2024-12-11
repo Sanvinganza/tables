@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import Joi from "joi";
-import { TVacancy } from "../../src/types";
+import { TVacancy } from "../../client/src/types";
 
 export const VacancySchemaValidate = Joi.object({
   company: Joi.string().required(),
@@ -10,7 +10,7 @@ export const VacancySchemaValidate = Joi.object({
   note: Joi.string().required(),
 });
 
-const vacanciesSchema = new Schema<TVacancy>({
+const vacanciesSchema = new Schema<Omit<TVacancy, "_id">>({
   company: {
     type: String,
     required: true,
@@ -33,4 +33,7 @@ const vacanciesSchema = new Schema<TVacancy>({
   },
 });
 
-export const Vacancy = model<TVacancy>("Vacancies", vacanciesSchema);
+export const Vacancy = model<Omit<TVacancy, "_id">>(
+  "Vacancies",
+  vacanciesSchema
+);
