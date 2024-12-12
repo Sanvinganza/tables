@@ -14,7 +14,7 @@ app.use(
     origin: process.env.CLIENT_URL,
   })
 );
-const port = process.env.PORT || 5000;
+const port = process.env.SERVER_PORT || 5000;
 
 const { MONGO_URI } = process.env;
 
